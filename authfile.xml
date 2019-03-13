@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<users>
+  <user>
+    <firstName>Kat</firstName> <email>kat@gmail.com</email> <password>12345</password>
+  </user>
+  <user>
+    <firstName>Silica</firstName> <email>silica@silica.net</email> <password>silica</password>
+  </user>
+
+</users>

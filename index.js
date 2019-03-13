@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+//Declarations for Front-end Authentication
+const fs = require('fs');
+const parse = require('xml-parser');
+const xml = fs.readFileSync('authfile.xml','utf8');
+const parseString = require('xml2js').parseString;
+
+
 //A module for allowing endpoints to be exposed on public
 const cors = require('cors');
 
@@ -48,5 +55,77 @@ app.post('/service1', (req, res) => {
 	
 	
 })
+
+//Front-end authentication
+app.post('/auth', (req, res) => {
+	
+			console.log("Auth....");
+
+			onAuthenticate(req.body).then(data =>{
+				
+				console.log(data);
+				res.send(data);
+				
+			}).catch(error=>{
+				
+				console.log(error);
+				res.send(error);
+				
+			})
+	
+})
+
+function onAuthenticate(userCredentials)
+{
+	
+		let promise = new Promise((resolve, rejevt)=>{
+			
+			
+			parseString(xml, function (err, result) {
+				console.log(result.users.user);
+				 let hasFound = false;
+				if(result)
+				{
+					for(let i = 0; i< result.users.user.length ; i++ ){
+				
+					
+					if(result.users.user[i].password[0] == userCredentials.password)
+					{
+						if(result.users.user[i].email[0] == userCredentials.email)
+						{
+							
+							hasFound = true;
+							
+						}
+						
+						
+						
+					}
+					
+				  }
+				  
+				  if(hasFound)
+				  {
+					  resolve({exists: true});
+					  
+				  }else{
+					  
+					  resolve({exists: false});
+				  }
+					
+				}else{
+					
+					reject("An error has occured");
+				}
+				
+			});
+			
+			
+		})
+		
+		
+		return promise;
+	
+}
 
 app.listen(port, () => console.log(`Listening on port ${port}`))

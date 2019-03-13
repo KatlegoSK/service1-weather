@@ -12,6 +12,9 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "js2xmlparser": "^4.0.0",
+    "xml-parser": "^1.2.1",
+    "xml2js": "^0.4.19"
   }
 }
